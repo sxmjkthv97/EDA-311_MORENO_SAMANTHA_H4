@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.hito4.models.Estudiante;
 
@@ -19,11 +21,15 @@ public class EstudianteController {
         Estudiante estudiante3 = new Estudiante("Sofia", "Ibañez", 19, "SIS123546789","Ingenieria de sistemas");
         estudiantes.put(estudiante1.getCodigo(), estudiante1);
         estudiantes.put(estudiante2.getCodigo(), estudiante2);
-        estudiantes.put(estudiante3.getCodigo(), estudiante3);
+        estudiantes.put(estudiante3.getCodigo(), estudiante3); // metodo para agregar nuevo estudiante ES EL PUT 
     }                                                // cuando trabaja con recursos es una URI osea una direccion URL que retorna recursos y el end point es la parte final de la direccion
     @GetMapping ("/estudiantes")
     public ResponseEntity<Object> getestudiantes(){
         return new ResponseEntity<>(estudiantes.values(),HttpStatus.OK);
-
+    }
+    @PostMapping ("/estudiante")
+    public ResponseEntity<Object> registrarEstudiante(@RequestBody Estudiante est){
+    estudiantes.put(est.getCodigo(),est);
+    return new ResponseEntity<>("el estudiante se creo correctamente:"+est.getCodigo(),HttpStatus.CREATED);
     }
 }
